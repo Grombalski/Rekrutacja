@@ -1,0 +1,100 @@
+@{
+    ViewData["Title"] = "Car comparer";
+}
+
+@model CarComparerViewModel
+<script type="text/javascript">
+
+    function calculateRange(car) {
+        var carTankCapacity = parseFloat(document.getElementById(car + 'CarTankCapacity').value);
+        var carFuelConsumption = parseFloat(document.getElementById(car + 'CarFuelConsumption').value);
+
+        if (carFuelConsumption == 0) {
+            document.getElementById(car + 'CarRange').value = 0;
+        }
+        else {
+            var result = (carTankCapacity / carFuelConsumption) * 100;
+            if (!isNaN(result)) {
+                document.getElementById(car + 'CarRange').value = Math.round(result * 100) / 100;
+            }
+        }
+    }
+</script>
+
+<h1>Compare cars:</h1>
+@using (Html.BeginForm("Compare", "CarComparer"))
+{
+    <div class="row">
+        <div class="column">
+            <br />
+            <h3>First car</h3>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstCar.Name)
+                <br />
+                @Html.EditorFor(m => m.FirstCar.Name)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstCar.MaxSpeed)
+                <br />
+                @Html.EditorFor(m => m.FirstCar.MaxSpeed)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstCar.TankCapacity)
+                <br />
+                @Html.EditorFor(m => m.FirstCar.TankCapacity, null, new { htmlAttributes = new { @onkeyup = "calculateRange('first');", @id = "firstCarTankCapacity" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstCar.FuelConsumption)
+                <br />
+                @Html.EditorFor(m => m.FirstCar.FuelConsumption, null, new { htmlAttributes = new { @onkeyup = "calculateRange('first');", @id = "firstCarFuelConsumption" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstCar.Range)
+                <br />
+                @Html.EditorFor(m => m.FirstCar.Range, null, new { htmlAttributes = new { @id = "firstCarRange", @readonly = "true" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstCar.Acceleration)
+                <br />
+                @Html.EditorFor(m => m.FirstCar.Acceleration)
+            </div>
+        </div>
+        <div class="column">
+            <br />
+            <h3>Second car</h3>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SecondCar.Name)
+                <br />
+                @Html.EditorFor(m => m.SecondCar.Name)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SecondCar.MaxSpeed)
+                <br />
+                @Html.EditorFor(m => m.SecondCar.MaxSpeed)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SecondCar.TankCapacity)
+                <br />
+                @Html.EditorFor(m => m.SecondCar.TankCapacity, null, new { htmlAttributes = new { @onkeyup = "calculateRange('second');", @id = "secondCarTankCapacity" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SecondCar.FuelConsumption)
+                <br />
+                @Html.EditorFor(m => m.SecondCar.FuelConsumption, null, new { htmlAttributes = new { @onkeyup = "calculateRange('second');", @id = "secondCarFuelConsumption" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SecondCar.Range)
+                <br />
+                @Html.EditorFor(m => m.SecondCar.Range, null, new { htmlAttributes = new { @id = "secondCarRange", @readonly = "true" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.SecondCar.Acceleration)
+                <br />
+                @Html.EditorFor(m => m.SecondCar.Acceleration)
+            </div>
+        </div>
+    </div>
+    <input formmethod="post" type="submit" value="Compare" class="btn btn-primary" />
+}
+
+
